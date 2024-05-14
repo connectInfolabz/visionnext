@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block main %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'index.html' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Sign Up <i class="ion-ios-arrow-forward"></i></span></p>
+        <h1 class="mb-0 bread">Sign Up</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+
+    <div class="col-lg-8 col-md-7 d-flex align-items-stretch">
+      <div class="contact-wrap w-100 p-md-5 p-4">
+        <h3 class="mb-4">Sign Up</h3>
+        <div id="form-message-warning" class="mb-4"></div>
+        <div id="form-message-success" class="mb-4">
+          Create Your Account Now !
+        </div>
+        <form method="POST" id="signupform" class="registerUser" action="/registeruser"  enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="first_name">Name</label>
+                <input type="text" class="form-control" name="name" id="first_name" placeholder="Full Name" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="email">Email Address</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="phone">Phone</label>
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" oninput="limitInputLength(this,10)">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="dp">Profile Picture</label>
+                <input type="file" class="form-control" name="dp" id="dp">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="password">Password</label>
+                <input type="password" class="form-control" name="password1" id="password" placeholder="Password" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="label" for="confirm_password">Confirm Password</label>
+                <input type="password" class="form-control" name="password2" id="confirm_password" placeholder="Confirm Password" required>
+              </div>
+            </div>
+
+          <span id="passwordError" class="text-danger"></span>
+
+             <div class="col-6 mt-3 mb-5">
+                          <a href="login.html">Login Now?</a>
+             </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="submit" value="Sign Up" class="btn btn-primary">
+                <div class="submitting"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-5 d-flex align-items-stretch">
+       <div class="info-wrap bg-primary w-100 p-md-5 p-4">
+         <h3>Sign Up</h3>
+         <p class="mb-4">Enter your email address and password to login.</p>
+          <h3>Need Help?</h3>
+          <p class="mb-4">If you encounter any issues while logging in or have any questions, feel free to reach out to us. We're here to assist you.</p>
+        </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+
+    function limitInputLength(inputElement, maxLength) {
+    var inputValue = inputElement.value.toString();
+
+    // Remove any non-numeric characters
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+    // Truncate to the specified length
+    inputValue = inputValue.slice(0, maxLength);
+
+    // Update the input value
+    inputElement.value = inputValue;
+
+    // You can also perform additional actions or validation if needed
+  }
+
+  function setupFormValidation(formId) {
+    var form = document.getElementById(formId);
+    form.addEventListener('submit', function (event) {
+      // Reset error messages
+      clearErrors(form);
+
+      // Validate password
+      var passwordInput = form.querySelector('[name="password1"]');
+      var confirmPasswordInput = form.querySelector('[name="password2"]');
+      var password = passwordInput.value.trim();
+      var confirmPassword = confirmPasswordInput.value.trim();
+
+      if (password !== confirmPassword) {
+        displayError(form, 'passwordError', 'Passwords do not match');
+        event.preventDefault();
+      } else if (!isValidPassword(password)) {
+        displayError(form, 'passwordError', 'Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be between 8 and 16 characters.');
+        event.preventDefault();
+      }
+    });
+  }
+
+  function isValidPassword(password) {
+    // Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be between 8 and 16 characters.
+    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    return passwordRegex.test(password);
+  }
+
+  function displayError(form, id, message) {
+    var errorElement = form.querySelector('#' + id);
+    errorElement.textContent = message;
+  }
+
+  function clearErrors(form) {
+    var errorElements = form.getElementsByClassName('error');
+    for (var i = 0; i < errorElements.length; i++) {
+      errorElements[i].textContent = '';
+    }
+  }
+
+  setupFormValidation('signupform');
+</script>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Feedback {% endblock %}
+
+{% block main %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'index.html' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Feedback <i class="ion-ios-arrow-forward"></i></span></p>
+        <h1 class="mb-0 bread">Feedback</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="wrapper">
+          <div class="row no-gutters">
+            <div class="col-md-12">
+              <div class="contact-wrap w-100 p-md-5 p-4">
+                <h3 class="mb-4">Give Us Your Feedback</h3>
+                <form id="feedbackForm" action="/storefeedback" method="post">
+                  {%csrf_token%}
+                  <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <div class="rating">
+                      <input type="radio" id="star1" name="rating" value="1" style="display: none;"><label for="star1"><i class="fa fa-star"></i></label>
+                      <input type="radio" id="star2" name="rating" value="2" style="display: none;"><label for="star2"><i class="fa fa-star"></i></label>
+                      <input type="radio" id="star3" name="rating" value="3" style="display: none;"><label for="star3"><i class="fa fa-star"></i></label>
+                      <input type="radio" id="star4" name="rating" value="4" style="display: none;"><label for="star4"><i class="fa fa-star"></i></label>
+                      <input type="radio" id="star5" name="rating" value="5" style="display: none;"><label for="star5"><i class="fa fa-star"></i></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="feedback">Feedback</label>
+                    <textarea class="form-control" id="feedback" name="message" rows="4" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // JavaScript to handle rating selection
+  const stars = document.querySelectorAll('.rating label');
+  stars.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      for (let i = 0; i <= index; i++) {
+        stars[i].classList.add('checked');
+      }
+      for (let i = index + 1; i < stars.length; i++) {
+        stars[i].classList.remove('checked');
+      }
+    });
+  });
+</script>
+
+<style>
+  .rating label.checked {
+    color: green;
+  }
+  .rating label{
+      font-size:30px;
+  }
+</style>
+{% endblock %}

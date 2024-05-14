@@ -1,0 +1,66 @@
+
+{%extends 'base.html'%}
+{%load static%}
+{%block title%} Services Details{%endblock%}
+{%block main%}
+
+  <section class="hero-wrap hero-wrap-2" style="background-image: url(' {% static 'images/bg_2.jpg' %} ');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end">
+        <div class="col-md-9 ftco-animate pb-5">
+          <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="services.html"> Service <i class="ion-ios-arrow-forward"></i></a></span> <span>Service Details <i class="ion-ios-arrow-forward"></i></span></p>
+          <h1 class="mb-0 bread">Service Details</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 mx-auto ftco-animate">
+          	<p>
+              <img src="/media/{{data.image}}" alt="" class="img-fluid">
+            </p>
+            <h2 class="mb-3">{{data.name}}</h2>
+            <p>{{data.desc}}</p>
+            <h5>Duration : {{data.duration}}</h5>
+            <h5>Pricing : {{data.price}}</h5>
+
+            <div class="pt-5 mt-5">
+              <ul class="comment-list">
+
+              </ul>
+              <!-- END comment-list -->
+
+           <div class="comment-form-wrap pt-5">
+            <h3 class="mb-5">Make an Inquiry</h3>
+            <form action="/storeInquiry" method="post"  class="p-5 bg-light">
+                {%csrf_token%}
+                <input type="hidden" value="{{data.id}}" name="serviceid">
+            <div class="form-group">
+                  <label for="subject">Subject</label>
+                  <input type="text" class="form-control" name="subject" id="subject">
+              </div>
+              <div class="form-group">
+                  <label for="message">Your Message *</label>
+                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" required></textarea>
+              </div>
+              <div class="form-group">
+                  <input type="submit" value="Submit Inquiry" class="btn py-3 px-4 btn-primary">
+              </div>
+          </form>
+      </div>
+
+          </div> <!-- .col-md-8 -->
+          <div class="col-lg-0 sidebar pl-lg-5 ftco-animate">
+
+          </div>
+
+
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+{%endblock%}

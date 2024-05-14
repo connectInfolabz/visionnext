@@ -1,0 +1,57 @@
+
+{%extends 'base.html'%}
+{%load static%}
+{%block title%} Services {%endblock%}
+{%block main%}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url(' {% static 'images/bg_2.jpg' %} ');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Services Categories<i class="ion-ios-arrow-forward"></i></span></p>
+        <h1 class="mb-0 bread">Categories</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section class="ftco-section bg-light ftco-no-pt">
+    	<div class="container">
+    		<div class="row justify-content-center pb-5 mb-3">
+              <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading mt-5">Services Categories</span>
+                <h2>Categories</h2>
+              </div>
+            </div>
+        {%if data%}
+    		<div class="row">
+                {% for cate in data %}
+                <div class="col-md-6 col-lg-4 ftco-animate mb-5">
+                  <div class="block-7">
+                      <div>
+                          <img src="/media/{{cate.image}}" alt="{{cate.catename}}" width="100%" height="200px">
+                      </div>
+                    <div class="text-center">
+                        <span class="excerpt d-block mt-5">{{cate.catename}}</span>
+                        {%if request.session.login_id %}
+                        <form action="/Service.html" method="post">
+                            {%csrf_token%}
+                            <input type="hidden" name="cateid" value="{{cate.id}}">
+                            <input type="submit" class="btn btn-primary d-block px-2 py-3" value="Explore Services">
+                        </form>
+                        {%else%}
+                        <a href="login.html" class="btn btn-primary d-block px-2 py-3" >Explore Service</a>
+                        {%endif%}
+                    </div>
+                  </div>
+                </div>
+			  {%endfor%}
+			</div>
+        {%else%}
+            <h1>No Services Are Available For Now</h1>
+        {%endif%}
+	      </div>
+    	</div>
+    </section>
+{%endblock%}
